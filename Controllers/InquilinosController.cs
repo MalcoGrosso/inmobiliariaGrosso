@@ -58,7 +58,8 @@ public class InquilinosController : Controller
             }
             catch
             {
-                return View();
+                //return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
