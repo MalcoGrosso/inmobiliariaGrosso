@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "H:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj": {}
+    "G:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj": {}
   },
   "projects": {
-    "H:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj": {
+    "G:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj",
+        "projectUniqueName": "G:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj",
         "projectName": "InmobiliariaGrosso",
-        "projectPath": "H:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj",
-        "packagesPath": "C:\\Users\\yo125\\.nuget\\packages\\",
-        "outputPath": "H:\\ULP\\NET\\InmobiliariaGrosso\\obj\\",
+        "projectPath": "G:\\ULP\\NET\\InmobiliariaGrosso\\InmobiliariaGrosso.csproj",
+        "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+        "outputPath": "G:\\ULP\\NET\\InmobiliariaGrosso\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\yo125\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -40,7 +40,7 @@
           "dependencies": {
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.8, )"
+              "version": "[6.0.4, )"
             },
             "MySql.Data": {
               "target": "Package",
