@@ -1,0 +1,56 @@
+@model InmobiliariaGrosso.Models.Inmueble
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Borrar Inmueble</h1>
+
+<h3>¿Desea borrar el siguiente Inmueble?</h3>
+<div>
+    <h4>Inmueble</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ambientes)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ambientes)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Superficie)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Superficie)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Latitud)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Latitud)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Longitud)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Longitud)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Duenio)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Duenio.Nombre)  @Html.DisplayFor(model => model.Duenio.Apellido)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

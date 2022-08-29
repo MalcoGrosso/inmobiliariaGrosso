@@ -57,7 +57,7 @@ namespace InmobiliariaGrosso.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
@@ -102,14 +102,14 @@ namespace InmobiliariaGrosso.Controllers
         // GET: PropietariosController/Delete/5
         public ActionResult Delete(int id)
         {
-            int res = repo.Delete(id);
-            if (res > 0)
-            {
-                return RedirectToAction(nameof(Index));
+            	try
+			{
+                var entidad = repo.ObtenerPorId(id);
+                return View(entidad);
             }
-            else
-            {
-                return RedirectToAction(nameof(Index));
+            catch (Exception ex)
+            {//poner breakpoints para detectar errores
+                throw;
             }
         }
 

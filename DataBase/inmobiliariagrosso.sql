@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-08-2022 a las 02:48:48
--- Versión del servidor: 10.4.14-MariaDB
--- Versión de PHP: 7.4.10
+-- Tiempo de generación: 29-08-2022 a las 23:51:54
+-- Versión del servidor: 10.4.24-MariaDB
+-- Versión de PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `inmobiliariagrosso`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `inmuebles`
+--
+
+CREATE TABLE `inmuebles` (
+  `id` int(50) NOT NULL,
+  `direccion` varchar(100) NOT NULL,
+  `ambientes` int(50) NOT NULL,
+  `superficie` int(50) NOT NULL,
+  `latitud` varchar(50) NOT NULL,
+  `longitud` varchar(50) NOT NULL,
+  `IdPropietario` int(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `inmuebles`
+--
+
+INSERT INTO `inmuebles` (`id`, `direccion`, `ambientes`, `superficie`, `latitud`, `longitud`, `IdPropietario`) VALUES
+(13, 'rea', 3, 456, '33', '44', 1),
+(17, 'dfgdfgdf', 5, 4545, '34', '76', 5);
 
 -- --------------------------------------------------------
 
@@ -41,11 +65,11 @@ CREATE TABLE `inquilinos` (
 --
 
 INSERT INTO `inquilinos` (`id`, `dni`, `nombre`, `apellido`, `telefono`, `email`) VALUES
-(1, '321654654', 'asd', 'asd', '123', 'asd@sdasd.com'),
+(1, '321654654', 'asd', 'asd', '1235', 'asd@sdasd.com'),
 (3, '22222222', 'sfsdf', 'fdgdfg', 'dfgdfg', 'fsdfsd@asdasd.com'),
 (7, '5434534534', 'aaaaa', 'ppppp', '45345345', 'asdasd@asd111asd.com'),
-(8, '54545', 'sdfsdf', 'dfgdfg', '66666', 'sdfsd@sadasd.com'),
-(9, '54684', 'hbfgb', 'fghfgh', '7567567', 'gfhfgh@asdasd.com');
+(8, '54545', 'sdfsdf', 'dfgdfg', '444444444444', 'sdfsd@sadasd.com'),
+(12, '3453453', 'ioui', 'tyuty', '546456', 'nvbnvb2@asdas.com');
 
 -- --------------------------------------------------------
 
@@ -68,11 +92,19 @@ CREATE TABLE `propietarios` (
 
 INSERT INTO `propietarios` (`id`, `nombre`, `apellido`, `dni`, `telefono`, `email`) VALUES
 (1, 'asd', 'fgsdf', '123123123', '5646456', 'asda@asdasd.com'),
-(4, 'gfhfgh', 'gfhfgh', '34534534', '9999999', 'dfsergsg@asdasd.com');
+(5, 'juan', 'perez', '544564', '45645645', 'aaaa@aaa.com'),
+(8, 'Raul', 'Gomez', '435435', '3453453', 'nvbnvb2@asdas.com');
 
 --
 -- Índices para tablas volcadas
 --
+
+--
+-- Indices de la tabla `inmuebles`
+--
+ALTER TABLE `inmuebles`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IdPropietario` (`IdPropietario`);
 
 --
 -- Indices de la tabla `inquilinos`
@@ -91,16 +123,32 @@ ALTER TABLE `propietarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `inmuebles`
+--
+ALTER TABLE `inmuebles`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
+--
 -- AUTO_INCREMENT de la tabla `inquilinos`
 --
 ALTER TABLE `inquilinos`
-  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `propietarios`
 --
 ALTER TABLE `propietarios`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `inmuebles`
+--
+ALTER TABLE `inmuebles`
+  ADD CONSTRAINT `inmuebles_ibfk_1` FOREIGN KEY (`IdPropietario`) REFERENCES `propietarios` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
