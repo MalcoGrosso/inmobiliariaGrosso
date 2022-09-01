@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-08-2022 a las 23:51:54
+-- Tiempo de generación: 01-09-2022 a las 22:28:49
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `inmobiliariagrosso`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contratos`
+--
+
+CREATE TABLE `contratos` (
+  `id` int(30) NOT NULL,
+  `idInquilino` int(30) NOT NULL,
+  `idInmueble` int(30) NOT NULL,
+  `desde` date NOT NULL,
+  `hasta` date NOT NULL,
+  `precio` int(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `contratos`
+--
+
+INSERT INTO `contratos` (`id`, `idInquilino`, `idInmueble`, `desde`, `hasta`, `precio`) VALUES
+(1, 8, 13, '2022-08-30', '2023-08-30', 3000),
+(2, 3, 17, '2022-08-23', '2022-08-31', 1500);
 
 -- --------------------------------------------------------
 
@@ -100,6 +123,14 @@ INSERT INTO `propietarios` (`id`, `nombre`, `apellido`, `dni`, `telefono`, `emai
 --
 
 --
+-- Indices de la tabla `contratos`
+--
+ALTER TABLE `contratos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idInquilino` (`idInquilino`),
+  ADD KEY `idInmueble` (`idInmueble`);
+
+--
 -- Indices de la tabla `inmuebles`
 --
 ALTER TABLE `inmuebles`
@@ -123,6 +154,12 @@ ALTER TABLE `propietarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `contratos`
+--
+ALTER TABLE `contratos`
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `inmuebles`
 --
 ALTER TABLE `inmuebles`
@@ -143,6 +180,13 @@ ALTER TABLE `propietarios`
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `contratos`
+--
+ALTER TABLE `contratos`
+  ADD CONSTRAINT `contratos_ibfk_1` FOREIGN KEY (`idInquilino`) REFERENCES `inquilinos` (`id`),
+  ADD CONSTRAINT `contratos_ibfk_2` FOREIGN KEY (`idInmueble`) REFERENCES `inmuebles` (`id`);
 
 --
 -- Filtros para la tabla `inmuebles`
