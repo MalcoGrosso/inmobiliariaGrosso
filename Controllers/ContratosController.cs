@@ -1,0 +1,181 @@
+﻿using InmobiliariaGrosso.Data;
+using InmobiliariaGrosso.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace InmobiliariaGrosso.Controllers
+{
+    public class ContratosController : Controller
+    {
+        private RepoContrato repo;
+        private RepoInmueble repoInmueble;
+        private RepoInquilino repoInquilino;
+        private RepoContrato repoContrato;
+  
+        public ContratosController()
+        {
+            repo = new RepoContrato();
+            repoInmueble = new RepoInmueble();
+            repoInquilino = new RepoInquilino();
+            repoContrato = new RepoContrato();
+            
+        }
+
+        // GET: ContratosController
+        public ActionResult Index()
+        {
+                var lista = repo.All();
+                return View(lista);
+        }
+
+        // GET: ContratosController/Details/5
+        public ActionResult Details(int id)
+        {
+                var c = repo.Details(id);
+                if (c.Id > 0)
+                {
+                    return View(c);
+                }
+                else
+                {
+                    TempData["msg"] = "No se encontró Contrato. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+        }
+
+        // GET: ContratosController/Create
+       public ActionResult Create()
+        {
+                ViewBag.Inmuebles = repoInmueble.All();
+                ViewBag.Inquilinos = repoInquilino.All();
+                return View();
+        }
+
+        // POST: ContratosController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Contrato c)
+        { 
+            try
+            {
+            
+                var res = repo.Put(c);
+                        if (res > 0)
+                        {
+                            TempData["msg"] = "Contrato cargado";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            TempData["msg"] = "No se cargó el contrato. Intente nuevamente.";
+                            return RedirectToAction(nameof(Create));
+                        }
+            }
+            catch
+            {
+                //return View();
+                return RedirectToAction(nameof(Index));
+            }
+        
+                        
+        }
+
+        // GET: ContratosController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            
+                var c = repo.Details(id);
+                if (c.Id <= 0)
+                {
+                    TempData["msg"] = "No se encontró Contrato. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var inmuebles = repoInmueble.All();
+                if (inmuebles.Count == 0)
+                {
+                    TempData["msg"] = "No se pudo obtener lista de Inmuebles. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                
+                var inquilinos = repoInquilino.All();
+                if (inquilinos.Count == 0)
+                {
+                    TempData["msg"] = "No se pudo obtener lista de Inquilinos. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ViewBag.Inmuebles = inmuebles;
+                ViewBag.Inquilinos = inquilinos;
+                return View(c);
+            
+            
+        }
+
+        // POST: ContratosController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, Contrato c)
+        {
+
+                var res = repo.Edit(c);
+                if (res > 0)
+                {
+                    TempData["msg"] = "Cambios guardados.";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["msg"] = "No se guardaron cambios. Intente nuevamente.";
+                    return RedirectToAction(nameof(Edit), new { id = id });
+                }
+        }
+
+        // GET: ContratosController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            
+                Contrato c = repo.Details(id);
+                if (c.Id > 0)
+                {
+                    return View(c);
+                }
+                else
+                {
+                    TempData["msg"] = "No se encontró Contrato. Intente nuevamente";
+                    return RedirectToAction(nameof(Index));
+                }
+            
+            
+
+        }
+
+        // POST: ContratosController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            
+                var res = repo.Delete(id);
+                if (res > 0)
+                {
+                    TempData["msg"] = "Contrato eliminado de la base de datos.";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    Exception e = new Exception("No se eliminó Contrato. Intente nuevamente.");
+                    return RedirectToAction(nameof(Delete), new { id = id });
+                }
+            
+        
+        }
+
+    }
+}

@@ -1,0 +1,85 @@
+﻿@model InmobiliariaGrosso.Models.Contrato
+
+@{
+    ViewData["Title"] = "Cargar Contrato";
+    IList<Inmueble> Inmuebles = (List<Inmueble>)ViewBag.Inmuebles;
+    IList<Inquilino> Inquilinos = (List<Inquilino>)ViewBag.Inquilinos;
+    Inmueble inmueble = (Inmueble)ViewBag.Inmueble;
+}
+
+
+    <h1>Cargar</h1>
+   
+        <h4>Contrato</h4>
+    
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (inmueble == null)
+                {
+                    <div class="form-group">
+                        <label asp-for="IdInmueble" class="control-label"></label>
+                        <select class="form-control" name="IdInmueble">
+                            @foreach (var i in Inmuebles)
+                            {
+                                <option value="@i.Id">
+                                    @(i.Id +" - "+ i.Direccion)
+                                </option>
+                            }
+                        </select>
+                        <span asp-validation-for="IdInmueble" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="hidden" name="IdInmueble" value="@inmueble.Id" />
+                    </div>
+                }
+                <div class="form-group">
+                    <label asp-for="IdInquilino" class="control-label"></label>
+                    <select class="form-control" name="IdInquilino">
+                        @foreach (var i2 in Inquilinos)
+                        {
+                            <option value="@i2.Id">
+                                @(i2.Dni +" - " + i2.Nombre)
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdInquilino" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Desde" class="control-label"></label>
+                    <input asp-for="Desde" type="date" class="form-control" />
+                    <span asp-validation-for="Desde" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Hasta" class="control-label"></label>
+                    <input asp-for="Hasta" type="date" class="form-control" />
+                    <span asp-validation-for="Hasta" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Precio" class="control-label"></label>
+                    <input asp-for="Precio" class="form-control" />
+                    <span asp-validation-for="Precio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Cargar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+<hr />
+
+<div>
+    <a class="btn btn-link" asp-action="Index">Lista de Contratos</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

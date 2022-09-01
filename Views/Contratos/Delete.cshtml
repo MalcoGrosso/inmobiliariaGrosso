@@ -1,0 +1,71 @@
+﻿@model InmobiliariaGrosso.Models.Contrato
+
+@{
+    ViewData["Title"] = "Eliminar Contrato";
+}
+
+
+<h1>Eliminar</h1>
+<hr />
+<h4>¿Estás seguro de eliminar el siguiente contrato?</h4>
+<hr />
+<div>
+    <h4>Contrato</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Inmueble.Direccion) del Inmueble
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Inmueble.Direccion)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Inmueble.Duenio)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Inmueble.Duenio.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Inquilino)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Inquilino.Nombre)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Desde)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Desde)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Hasta)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Hasta)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" onsubmit="return confirmar()">
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+    </form>
+</div>
+
+<hr />
+<div>
+    <a class="btn btn-link" asp-action="Index">Lista de Contratos</a>
+</div>
+
+
+

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<InmobiliariaGrosso.Models.Contrato>
+
+@{
+    ViewData["Title"] = "Lista de Contratos";
+}
+
+
+<h1>Contratos</h1>
+<hr />
+<p>
+    <a class="btn btn-secondary" asp-action="Create"><i class="far fa-plus-square"></i> Cargar Nuevo</a>
+ 
+
+</p>
+<hr />
+<table class="table" id="table_id">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdInmueble)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Inquilino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Desde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hasta)
+            </th>
+            <th width="40">
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th width="70"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-controller="Inmuebles" asp-route-id="@item.IdInmueble">Ver</a>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-controller="Inquilinos" asp-route-id="@item.IdInquilino">@item.Inquilino.Nombre</a>
+                        @*@Html.DisplayFor(modelItem => item.Inquilino.Nombre)*@
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Desde)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Hasta)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.Id })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.Id })                        
+                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
