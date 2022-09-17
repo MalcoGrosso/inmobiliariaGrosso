@@ -111,29 +111,7 @@ namespace InmobiliariaGrosso.Controllers
             
 
         }
-/*
-        // GET: PagosController/Inquilino/{dni}
-        public ActionResult Inquilino(int dni)
-        {
-            PagoCreate pc = new PagoCreate();
-            try
-            {
-                if (dni != null)
-                {
-                    Inquilino i = repoInquilino.Details(dni);
-                    pc.Inquilino = i;
-            
-                }
 
-                return Ok(pc); 
-            }
-                catch (Exception)
-                {
-                    throw;
-                }
-            
-
-        }*/
 
         // POST: PagosController/Create
         [HttpPost]
