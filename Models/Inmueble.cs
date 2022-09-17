@@ -11,15 +11,14 @@ namespace InmobiliariaGrosso.Models
 	{
         
         public int Id { get; set; }
-		
 		public string Direccion { get; set; }
-		
 		public int Ambientes { get; set; }
-		
 		public int Superficie { get; set; }
 		public string Latitud { get; set; }
         public string Longitud { get; set; }
-        
+        public string Uso { get; set; }
+        public string Tipo { get; set; } 
+               
         [Display(Name = "Propietario")]
         public int IdPropietario { get; set; }
         [Display(Name = "Dueño")]

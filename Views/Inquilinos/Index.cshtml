@@ -7,7 +7,7 @@
 <h1>Inquilinos</h1>
 
 <p>
-    <a asp-action="Create">Crear Inquilinos</a>
+    <a class="btn btn-secondary" asp-action="Create"><i class="far fa-plus-square"></i>Crear Inquilinos</a>
 </p>
 <table class="table">
     <thead>
@@ -49,9 +49,10 @@
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new {  id=item.Id  }) |
-                @Html.ActionLink("Detalles", "Details", new {  id=item.Id }) |
-                @Html.ActionLink("Borrar", "Delete", new { id=item.Id })
+                
+                <a class="btn btn-warning" asp-action="Edit" asp-controller="Inquilinos" asp-route-id="@item.Id">Editar</a> 
+                <a class="btn btn-warning" asp-action="Details" asp-controller="Inquilinos" asp-route-id="@item.Id">Detalles</a>
+                <a class="btn btn-warning" asp-action="Delete" asp-controller="Inquilinos" asp-route-id="@item.Id">Borrar</a>
             </td>
         </tr>
 }

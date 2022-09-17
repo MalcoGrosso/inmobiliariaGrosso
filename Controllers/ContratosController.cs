@@ -8,15 +8,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace InmobiliariaGrosso.Controllers
 {
+    [Authorize]
     public class ContratosController : Controller
     {
         private RepoContrato repo;
         private RepoInmueble repoInmueble;
         private RepoInquilino repoInquilino;
         private RepoContrato repoContrato;
+        private RepoPago repoPago;
   
         public ContratosController()
         {
@@ -24,7 +27,7 @@ namespace InmobiliariaGrosso.Controllers
             repoInmueble = new RepoInmueble();
             repoInquilino = new RepoInquilino();
             repoContrato = new RepoContrato();
-            
+            repoPago = new RepoPago();
         }
 
         // GET: ContratosController
@@ -79,7 +82,7 @@ namespace InmobiliariaGrosso.Controllers
             }
             catch
             {
-                //return View();
+                
                 return RedirectToAction(nameof(Index));
             }
         
@@ -138,6 +141,7 @@ namespace InmobiliariaGrosso.Controllers
         }
 
         // GET: ContratosController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             
@@ -159,6 +163,7 @@ namespace InmobiliariaGrosso.Controllers
         // POST: ContratosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             
@@ -175,6 +180,29 @@ namespace InmobiliariaGrosso.Controllers
                 }
             
         
+        }
+
+        public ActionResult Pagos(int id)
+        {
+            try
+            {
+                var c = repo.Details(id);
+                if (c.Id == 0)
+                {
+                    TempData["msg"] = "No se encontró Contrato.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                IList<Pago> pagos = repoPago.AllByContrato(id);
+                ViewBag.Contrato = c;
+                return View(pagos);
+            }
+            
+                catch (Exception)
+                {
+                    throw;
+                }
+            
         }
 
     }

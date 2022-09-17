@@ -31,10 +31,8 @@
             <th>
                 @Html.DisplayNameFor(model => model.Hasta)
             </th>
-            <th width="40">
-                @Html.DisplayNameFor(model => model.Precio)
-            </th>
-            <th width="70"></th>
+            
+            <th ></th>
         </tr>
     </thead>
     <tbody>
@@ -47,10 +45,10 @@
                         @Html.DisplayFor(modelItem => item.Id)
                     </td>
                     <td>
-                        <a asp-action="Details" asp-controller="Inmuebles" asp-route-id="@item.IdInmueble">Ver</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-controller="Inmuebles" asp-route-id="@item.IdInmueble">Ver</a>
                     </td>
                     <td>
-                        <a asp-action="Details" asp-controller="Inquilinos" asp-route-id="@item.IdInquilino">@item.Inquilino.Nombre</a>
+                        <a class="btn btn-primary" asp-action="Details" asp-controller="Inquilinos" asp-route-id="@item.IdInquilino">@item.Inquilino.Nombre</a>
                         @*@Html.DisplayFor(modelItem => item.Inquilino.Nombre)*@
                     </td>
                     <td>
@@ -59,13 +57,15 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Hasta)
                     </td>
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.Precio)
-                    </td>
+                    
                     <td>
-                            @Html.ActionLink("Editar", "Edit", new { id = item.Id })
-                            @Html.ActionLink("Detalles", "Details", new { id = item.Id })                        
-                            @Html.ActionLink("Borrar", "Delete", new { id = item.Id })
+                            <a class="btn btn-warning" asp-action="Edit" asp-controller="Contratos" asp-route-id="@item.Id">Editar</a> 
+                            <a class="btn btn-warning" asp-action="Details" asp-controller="Contratos" asp-route-id="@item.Id">Detalles</a>
+                            <a class="btn btn-warning" asp-action="Delete" asp-controller="Contratos" asp-route-id="@item.Id">Borrar</a>
+                            <a class="btn btn-warning" asp-action="Create" asp-controller="Pagos" asp-route-id="@item.Id">Pagos</a>
+                            <a class="btn btn-warning" asp-action="Pagos" asp-controller="Contratos" asp-route-id="@item.Id">Pagos del Contrato</a>
+                            
+                            
                     </td>
                 </tr>
             }

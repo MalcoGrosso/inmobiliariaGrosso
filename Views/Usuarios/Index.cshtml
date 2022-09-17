@@ -1,0 +1,82 @@
+﻿@model IEnumerable<InmobiliariaGrosso.Models.Usuario>
+
+@{
+    ViewData["Title"] = "Lista de Usuarios";
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Lista de Usuarios</h1>
+<hr />
+<p>
+    <a class="btn btn-secondary" asp-action="Create"><i class="far fa-plus-square"></i> Cargar Nuevo</a>
+</p>
+<hr />
+<table class="table" id="table_id">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RolNombre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td class="text-center">
+                    @if (String.IsNullOrEmpty(item.Avatar))
+                    {
+                        <img src="/media/img/avatar.png" height="60" alt="Imagen de usuario" />
+                    }
+                    else
+                    {
+                        <img src="@item.Avatar" height="60" alt="Imagen de usuario" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RolNombre)
+                </td>
+                <td>
+                    <div>
+                         <a class="btn btn-warning" asp-action="Edit" asp-controller="Usuarios" asp-route-id="@item.Id">Editar</a> 
+                         <a class="btn btn-warning" asp-action="Details" asp-controller="Usuarios" asp-route-id="@item.Id">Detalles</a>
+                         <a class="btn btn-warning" asp-action="Delete" asp-controller="Usuarios" asp-route-id="@item.Id">Borrar</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

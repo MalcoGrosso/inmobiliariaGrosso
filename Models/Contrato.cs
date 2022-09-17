@@ -25,7 +25,6 @@ namespace InmobiliariaGrosso.Models
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Hasta { get; set; }
 
-        public int Precio{ get; set; }
 
         //Relaciones
         public Inmueble Inmueble { get; set; }

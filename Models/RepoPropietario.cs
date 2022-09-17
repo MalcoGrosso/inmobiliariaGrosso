@@ -160,7 +160,6 @@ namespace InmobiliariaGrosso.Models
 				using (MySqlCommand command = new MySqlCommand(sql, connection))
 				{
                     command.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
-               //     command.CommandType = CommandType.Text;
 					connection.Open();
 					var reader = command.ExecuteReader();
 					if (reader.Read())

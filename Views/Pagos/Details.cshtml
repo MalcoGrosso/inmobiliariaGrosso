@@ -1,0 +1,65 @@
+﻿@model InmobiliariaGrosso.Models.Pago
+
+@{
+    ViewData["Title"] = "Detalles de Pago";
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true"></span><i class="fas fa-times-circle"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Detalles</h1>
+
+<div>
+    <h4>Pago</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IdContrato)
+        </dt>
+        <dd class="col-sm-8">
+            <a asp-controller="Contratos" asp-action="Details" asp-route-id="@Model.IdContrato">
+                Ver Contrato @Html.DisplayFor(model => model.IdContrato)
+            </a>
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.NumeroPago)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.NumeroPago)
+        </dd>
+    </dl>
+</div>
+
+<hr />
+<div>
+    <a class="btn btn-link" asp-action="Index">Lista de Pagos</a>
+</div>

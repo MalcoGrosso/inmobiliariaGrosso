@@ -5,9 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace InmobiliariaGrosso.Controllers
 {
+   // [Authorize(AuthenticationSchemes = CookieAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize]
 public class InquilinosController : Controller
     {
         RepoInquilino repo;
@@ -21,7 +25,6 @@ public class InquilinosController : Controller
         public ActionResult Index()
         {
             IList<Inquilino> lista = repo.All();
-  //  IList<Inquilino> lista = repo.ObtenerLista();
             return View(lista);
         }
         
@@ -58,7 +61,7 @@ public class InquilinosController : Controller
             }
             catch
             {
-                //return View();
+                
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -104,6 +107,7 @@ public class InquilinosController : Controller
         }
 
         // GET: InquilinosController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             	try
@@ -112,7 +116,7 @@ public class InquilinosController : Controller
                 return View(entidad);
             }
             catch (Exception ex)
-            {//poner breakpoints para detectar errores
+            {
                 throw;
             }
             
@@ -121,6 +125,7 @@ public class InquilinosController : Controller
         // POST: InquilinosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

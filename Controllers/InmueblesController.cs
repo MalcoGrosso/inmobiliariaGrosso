@@ -8,9 +8,12 @@ using InmobiliariaGrosso.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace InmobiliariaGrosso.Controllers
 {
+        [Authorize]
     public class InmueblesController : Controller
     {
         private RepoInmueble repo;
@@ -33,6 +36,7 @@ namespace InmobiliariaGrosso.Controllers
         }
 
         // GET: Inmueble/Details/5
+    
         public ActionResult Details(int id)
         {
             
@@ -70,7 +74,7 @@ namespace InmobiliariaGrosso.Controllers
             }
             catch
             {
-                //return View();
+                
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -79,8 +83,7 @@ namespace InmobiliariaGrosso.Controllers
         // GET: Inmueble/Edit/5
         public ActionResult Edit(int id)
         {
-               // var propietarios = repoPropietario.All();
-                //return RedirectToAction(nameof(Index));
+          
             var entidad = repo.ObtenerPorId(id);
             ViewBag.Propietarios = repoPropietario.All();
             return View(entidad);
@@ -91,11 +94,11 @@ namespace InmobiliariaGrosso.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Inmueble i)
         {
-            //var res = repo.Edit(i);
+            
 
             try
             {
-              //  i.Id=id;
+              
                 var res = repo.Edit(i);
                 if (res > 0)
                 {
@@ -120,6 +123,7 @@ namespace InmobiliariaGrosso.Controllers
         }
 
         // GET: Inmueble/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             
@@ -129,7 +133,7 @@ namespace InmobiliariaGrosso.Controllers
                 return View(entidad);
             }
             catch (Exception ex)
-            {//poner breakpoints para detectar errores
+            {
                 throw;
             }
         }
@@ -137,6 +141,7 @@ namespace InmobiliariaGrosso.Controllers
         // POST: Inmueble/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
            try

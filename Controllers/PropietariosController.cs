@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace InmobiliariaGrosso.Controllers
 {
+    [Authorize]
     public class PropietariosController : Controller
     {
         RepoPropietario repo;
@@ -100,6 +102,7 @@ namespace InmobiliariaGrosso.Controllers
         }
 
         // GET: PropietariosController/Delete/5
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id)
         {
             	try
@@ -116,6 +119,7 @@ namespace InmobiliariaGrosso.Controllers
         // POST: PropietariosController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "Administrador")]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try

@@ -1,0 +1,114 @@
+﻿@model InmobiliariaGrosso.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<h1>Editar Usuario</h1>
+<hr />
+
+<div class="row">
+    <div class="col-sm-4 text-center">
+        @if (String.IsNullOrEmpty(Model.Avatar))
+        {
+            <img src="/media/img/avatar.png" width="200" />
+
+        }
+        else
+        {
+             <img src="@Model.Avatar" width="200"/>
+           
+        }
+        <br />
+        <p class="lead">@(Model.Email)</p>
+        <hr />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data" onsubmit="return confirmar()">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apellido" class="control-label"></label>
+                <input asp-for="Apellido" class="form-control" />
+                <span asp-validation-for="Apellido" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AvatarFile">Seleccione una imagen de perfil</label>
+                <input type="file" name="AvatarFile" class="form-control-file" />
+                <span asp-validation-for="AvatarFile" class="text-danger"></span>
+            </div>
+            @if (User.IsInRole("Administrador"))
+            {
+                <div class="form-group">
+                    <label class="control-label">Rol</label>
+                    <select class="form-control" name="Rol">
+                        @foreach (var kvp in (IDictionary<int, string>)ViewBag.Roles)
+                        {
+                            if (Model.Rol == kvp.Key)
+                            {
+                                <option value="@kvp.Key" selected>@kvp.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@kvp.Key">@kvp.Value</option>
+                            }
+                        }
+                    </select>
+                    <span asp-validation-for="Rol" class="text-danger"></span>
+                </div>
+            }
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a class="btn btn-warning" asp-controller="Usuarios" asp-action="EditPass" asp-route-id="@Model.Id">
+                    Cambiar Clave
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+
+</div>
+
+<hr />
+
+        <div class="col-sm-2">
+            <a class="btn btn-link" asp-action="Index">Volver</a>
+        </div>
+
+
+<script type="text/javascript">
+    function confirmar() { return confirm("Enviar cambios") }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
