@@ -92,7 +92,11 @@ namespace InmobiliariaGrosso.Controllers
         // GET: ContratosController/Edit/5
         public ActionResult Edit(int id)
         {
-            
+                var z = repo.Details(id);
+                DateTime Hoy = DateTime.Today;
+        //        string Date = DateTime.Now.ToString("dd-MM-yyyy");
+                z.Desde.AddDays(3);
+                
                 var c = repo.Details(id);
                 if (c.Id <= 0)
                 {
@@ -113,10 +117,28 @@ namespace InmobiliariaGrosso.Controllers
                     TempData["msg"] = "No se pudo obtener lista de Inquilinos. Intente nuevamente.";
                     return RedirectToAction(nameof(Index));
                 }
+    /*            if ( z.Hasta < Hoy){
+                    ViewBag.Inmuebles = inmuebles;
+                    ViewBag.Inquilinos = inquilinos;
+                    return View(z);
+                }else {
+                     TempData["msg"] = "asdasdasdasdasdas.";
+                    return RedirectToAction(nameof(Index));
 
-                ViewBag.Inmuebles = inmuebles;
-                ViewBag.Inquilinos = inquilinos;
-                return View(c);
+                }*/ 
+
+                if ( z.Desde.AddDays(3) > Hoy){
+                    ViewBag.Inmuebles = inmuebles;
+                    ViewBag.Inquilinos = inquilinos;
+                    return View(z);
+                }else {
+                     TempData["msg"] = "No se puede editar un contrato luego de 3 dias de su Creacion.";
+                    return RedirectToAction(nameof(Index));
+
+                }
+        //        ViewBag.Inmuebles = inmuebles;
+        //        ViewBag.Inquilinos = inquilinos;
+        //       return View(c);
             
             
         }
@@ -139,6 +161,67 @@ namespace InmobiliariaGrosso.Controllers
                     return RedirectToAction(nameof(Edit), new { id = id });
                 }
         }
+
+        // GET: ContratosController/Renovacion/5
+        public ActionResult Renovacion(int id)
+        {
+                var z = repo.Details(id);
+                DateTime Hoy = DateTime.Today;
+        //        string Date = DateTime.Now.ToString("dd-MM-yyyy");
+                z.Desde.AddDays(3);
+                
+                var c = repo.Details(id);
+                if (c.Id <= 0)
+                {
+                    TempData["msg"] = "No se encontró Contrato. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var inmuebles = repoInmueble.All();
+                if (inmuebles.Count == 0)
+                {
+                    TempData["msg"] = "No se pudo obtener lista de Inmuebles. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                
+                var inquilinos = repoInquilino.All();
+                if (inquilinos.Count == 0)
+                {
+                    TempData["msg"] = "No se pudo obtener lista de Inquilinos. Intente nuevamente.";
+                    return RedirectToAction(nameof(Index));
+                }
+                if ( z.Hasta < Hoy){
+                    ViewBag.Inmuebles = inmuebles;
+                    ViewBag.Inquilinos = inquilinos;
+                    return View(z);
+                }else {
+                     TempData["msg"] = "No se puede Realizar una Renovacion mientras el contrato siga Vigente.";
+                    return RedirectToAction(nameof(Index));
+
+                }
+        }
+
+        // POST: ContratosController/Renovacion/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Renovacion(int id, Contrato c)
+        {
+
+                var res = repo.Renovacion(c);
+                if (res > 0)
+                {
+                    TempData["msg"] = "Cambios guardados.";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["msg"] = "No se guardaron cambios. Intente nuevamente.";
+                    return RedirectToAction(nameof(Renovacion), new { id = id });
+                }
+        }
+
+
+
 
         // GET: ContratosController/Delete/5
         [Authorize(Policy = "Administrador")]

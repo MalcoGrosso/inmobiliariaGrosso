@@ -24,6 +24,10 @@ namespace InmobiliariaGrosso.Models
         [Display(Name = "Fecha de Vencimiento")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime Hasta { get; set; }
+        
+        [Display(Name = "Monto Mensual")]
+        public int MontoM { get; set; }
+        [Required(ErrorMessage = "Campo requerido")]
 
 
         //Relaciones

@@ -30,8 +30,7 @@
         {
             <form asp-action="Create" asp-route-id="@c.Id">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <h5>Contrato @(c.Id) para Inmueble ubicado en @(c.Inmueble.Direccion)</h5>
+                <h5>Contrato @(c.Id) para Inmueble ubicado en @( c.Inmueble.Direccion) </h5>
                 <hr />
                 <div class="form-group">
                     <label asp-for="NumeroPago" class="control-label"></label>
@@ -40,7 +39,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Monto" class="control-label"></label>
-                    <input asp-for="Monto" class="form-control" />
+                    <input asp-for= "Monto" value="@c.MontoM"  class="form-control" readonly  />
                     <span asp-validation-for="Monto" class="text-danger"></span>
                 </div>
                 <div class="form-group">

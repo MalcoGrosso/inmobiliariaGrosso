@@ -1,39 +1,31 @@
-﻿@model InmobiliariaGrosso.Models.Contrato
+@model InmobiliariaGrosso.Models.Contrato
 
 @{
-    ViewData["Title"] = "Editar Contrato";
+    ViewData["Title"] = "Renovar Contrato";
     IList<Inmueble> Inmuebles = (List<Inmueble>)ViewBag.Inmuebles;
     IList<Inquilino> Inquilinos = (List<Inquilino>)ViewBag.Inquilinos;
+    Inquilino z = (Inquilino)ViewBag.Contrato;    
 }
 
 
 
-<h1>Editar</h1>
+<h1>Renovacion</h1>
 
 <h4>Contrato</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" onsubmit="return confirmar()">
+        <form asp-action="Renovacion" onsubmit="return confirmar()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
             <div class="form-group">
                 <label asp-for="IdInmueble" class="control-label"></label>
-                <select class="form-control" name="IdInmueble">
-                    @foreach (var i in Inmuebles)
-                    {
-                        @:<option value="@i.Id" @(i.Id == Model.IdInmueble ? "selected" : "")>@(i.Id +" - "+ i.Direccion)</option>
-                    }
-                </select>
+                <input asp-for="Inmueble.Direccion"  class="form-control" disabled />
                 <span asp-validation-for="IdInmueble" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdInquilino" class="control-label"></label>
-                <select class="form-control" name="IdInquilino">
-                    @foreach (var i in Inquilinos)
-                    {
-                        @:<option value="@i.Id" @(i.Id == Model.IdInquilino ? "selected" : "")>@(i.Dni+" - "+i.Nombre)</option>
-                    }
-                </select>
+                <input asp-for="Inquilino.Nombre"  class="form-control" disabled />
                 <span asp-validation-for="IdInquilino" class="text-danger"></span>
             </div>
             <div class="form-group">

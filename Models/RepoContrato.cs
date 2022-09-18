@@ -23,7 +23,7 @@ namespace InmobiliariaGrosso.Data
             {
                 string sql = @"UPDATE contratos
                             SET IdInmueble = @id_inmueble , IdInquilino = @id_inquilino , Desde = @desde , 
-                            Hasta = @hasta
+                            Hasta = @hasta , MontoM = @montoM
                             WHERE Id = @id ;";
 
                 using (MySqlCommand comm = new MySqlCommand(sql, conn))
@@ -32,6 +32,7 @@ namespace InmobiliariaGrosso.Data
                     comm.Parameters.AddWithValue("@id_inquilino", c.IdInquilino);
                     comm.Parameters.AddWithValue("@desde", c.Desde);
                     comm.Parameters.AddWithValue("@hasta", c.Hasta);
+                    comm.Parameters.AddWithValue("@montoM", c.MontoM);
                     comm.Parameters.AddWithValue("@id", c.Id);
 
 
@@ -42,6 +43,35 @@ namespace InmobiliariaGrosso.Data
             }
             return res;
         }
+
+        public int Renovacion(Contrato c)
+        {
+            int res = -1;
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                string sql = @"UPDATE contratos
+                            SET  Desde = @desde , 
+                            Hasta = @hasta , MontoM = @montoM
+                            WHERE Id = @id ;";
+
+                using (MySqlCommand comm = new MySqlCommand(sql, conn))
+                {
+                    
+                    comm.Parameters.AddWithValue("@desde", c.Desde);
+                    comm.Parameters.AddWithValue("@hasta", c.Hasta);
+                    comm.Parameters.AddWithValue("@montoM", c.MontoM);
+                    comm.Parameters.AddWithValue("@id", c.Id);
+
+
+                    conn.Open();
+                    res = Convert.ToInt32(comm.ExecuteNonQuery());
+                    conn.Close();
+                }
+            }
+            return res;
+        }
+
+
         public int Delete(int id)
         {
             int res = -1;
@@ -67,7 +97,7 @@ namespace InmobiliariaGrosso.Data
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
-                string sql = @"SELECT c.Id, c.IdInmueble, c.IdInquilino, c.Desde, c.Hasta,
+                string sql = @"SELECT c.Id, c.IdInmueble, c.IdInquilino, c.Desde, c.Hasta, c.MontoM,
                                 i.IdPropietario, p.Nombre, 
                                 i2.Nombre, i.Direccion 
                                 FROM contratos c INNER JOIN inmuebles i ON c.IdInmueble = i.Id 
@@ -86,21 +116,21 @@ namespace InmobiliariaGrosso.Data
                     {
                         Propietario p = new Propietario
                         {
-                            Id = reader.GetInt32(5),
-                            Nombre = reader.GetString(6),
+                            Id = reader.GetInt32(6),
+                            Nombre = reader.GetString(7),
                         };
 
                         Inmueble i = new Inmueble
                         {
                             Id = reader.GetInt32(1),
-                            Direccion = reader.GetString(8),
+                            Direccion = reader.GetString(9),
                             Duenio = p,
                         };
 
                         Inquilino i2 = new Inquilino
                         {
                             Id = reader.GetInt32(2),
-                            Nombre = reader.GetString(7)
+                            Nombre = reader.GetString(8)
                         };
 
 
@@ -109,6 +139,7 @@ namespace InmobiliariaGrosso.Data
                         c.IdInquilino = reader.GetInt32(2);
                         c.Desde = reader.GetDateTime(3);
                         c.Hasta = reader.GetDateTime(4);
+                        c.MontoM = reader.GetInt32(5);
                         c.Inmueble = i;
                         c.Inquilino = i2;
 
@@ -125,9 +156,9 @@ namespace InmobiliariaGrosso.Data
             int res = -1;
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
-                string sql = @"INSERT INTO contratos (IdInmueble, IdInquilino, Desde, Hasta
+                string sql = @"INSERT INTO contratos (IdInmueble, IdInquilino, Desde, Hasta, MontoM
                             ) 
-                            VALUES(@id_inmueble, @id_inquilino, @desde, @hasta
+                            VALUES(@id_inmueble, @id_inquilino, @desde, @hasta, @montoM
                             );
                             SELECT last_insert_id();";
 
@@ -137,6 +168,7 @@ namespace InmobiliariaGrosso.Data
                     comm.Parameters.AddWithValue("@id_inquilino", c.IdInquilino);
                     comm.Parameters.AddWithValue("@desde", c.Desde);
                     comm.Parameters.AddWithValue("@hasta", c.Hasta);
+                    comm.Parameters.AddWithValue("@montoM", c.MontoM);
                     
                     
 
@@ -157,7 +189,7 @@ namespace InmobiliariaGrosso.Data
 
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
-                string sql = @"SELECT c.Id, c.IdInmueble, c.IdInquilino, c.Desde, c.Hasta,  
+                string sql = @"SELECT c.Id, c.IdInmueble, c.IdInquilino, c.Desde, c.Hasta, c.MontoM,  
                                 i.IdPropietario, p.Nombre, 
                                 i2.Nombre
                                 FROM contratos c INNER JOIN inmuebles i ON c.IdInmueble = i.Id 
@@ -173,8 +205,8 @@ namespace InmobiliariaGrosso.Data
                     {
                         Propietario p = new Propietario
                         {
-                            Id = reader.GetInt32(5),
-                            Nombre = reader.GetString(6),
+                            Id = reader.GetInt32(6),
+                            Nombre = reader.GetString(7),
                         };
 
                         Inmueble i = new Inmueble
@@ -186,7 +218,7 @@ namespace InmobiliariaGrosso.Data
                         Inquilino i2 = new Inquilino
                         {
                             Id = reader.GetInt32(2),
-                            Nombre = reader.GetString(7)
+                            Nombre = reader.GetString(8)
                         };
 
                         Contrato c = new Contrato
@@ -196,6 +228,7 @@ namespace InmobiliariaGrosso.Data
                             IdInquilino = reader.GetInt32(2),
                             Desde = reader.GetDateTime(3),
                             Hasta = reader.GetDateTime(4),
+                            MontoM = reader.GetInt32(5),
                             Inmueble = i,
                             Inquilino = i2,
                         };

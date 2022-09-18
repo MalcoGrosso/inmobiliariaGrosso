@@ -4,6 +4,18 @@
     ViewData["Title"] = "Lista de Contratos";
 }
 
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
 
 <h1>Contratos</h1>
 <hr />
@@ -31,7 +43,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Hasta)
             </th>
-            
+            <th>
+                @Html.DisplayNameFor(model => model.MontoM)
+            </th>            
             <th ></th>
         </tr>
     </thead>
@@ -57,6 +71,9 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Hasta)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MontoM)
+                    </td>
                     
                     <td>
                             <a class="btn btn-warning" asp-action="Edit" asp-controller="Contratos" asp-route-id="@item.Id">Editar</a> 
@@ -64,6 +81,7 @@
                             <a class="btn btn-warning" asp-action="Delete" asp-controller="Contratos" asp-route-id="@item.Id">Borrar</a>
                             <a class="btn btn-warning" asp-action="Create" asp-controller="Pagos" asp-route-id="@item.Id">Pagos</a>
                             <a class="btn btn-warning" asp-action="Pagos" asp-controller="Contratos" asp-route-id="@item.Id">Pagos del Contrato</a>
+                            <a class="btn btn-warning" asp-action="Renovacion" asp-controller="Contratos" asp-route-id="@item.Id">Renovacion</a>
                             
                             
                     </td>
