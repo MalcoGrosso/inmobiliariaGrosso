@@ -18,6 +18,8 @@ namespace InmobiliariaGrosso.Models
         public string Longitud { get; set; }
         public string Uso { get; set; }
         public string Tipo { get; set; } 
+        public bool Disponible { get; set; }
+        public string DisponibleN => Disponible ? "Sí" : "No";
                
         [Display(Name = "Propietario")]
         public int IdPropietario { get; set; }

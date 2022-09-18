@@ -133,6 +133,8 @@ namespace InmobiliariaGrosso.Data
                             Nombre = reader.GetString(8)
                         };
 
+                         DateTime Hoy = DateTime.Today;
+                         string Date = DateTime.Now.ToString("dd/MM/yyyy");
 
                         c.Id = reader.GetInt32(0);
                         c.IdInmueble = reader.GetInt32(1);
@@ -140,9 +142,23 @@ namespace InmobiliariaGrosso.Data
                         c.Desde = reader.GetDateTime(3);
                         c.Hasta = reader.GetDateTime(4);
                         c.MontoM = reader.GetInt32(5);
+                        c.FechaHoy = Hoy;
+                        c.FechaHoy1 = Date;
                         c.Inmueble = i;
                         c.Inquilino = i2;
 
+                        TimeSpan contrato = c.Hasta.Subtract(c.Desde);
+                        TimeSpan diaContrato = c.Hasta.Subtract(Hoy);
+                        double dias = (contrato.TotalDays)/2;
+                        double dias1 = diaContrato.TotalDays;
+                        if(dias1 > dias){
+                            c.Deuda = c.MontoM*2;
+                        } else{
+                            c.Deuda = c.MontoM;
+                        }    
+
+                        
+ 
                     }
 
                     conn.Close();

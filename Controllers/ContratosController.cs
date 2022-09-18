@@ -55,7 +55,8 @@ namespace InmobiliariaGrosso.Controllers
         // GET: ContratosController/Create
        public ActionResult Create()
         {
-                ViewBag.Inmuebles = repoInmueble.All();
+          //      ViewBag.Inmuebles = repoInmueble.All();
+                ViewBag.Inmuebles = repoInmueble.AllValid();
                 ViewBag.Inquilinos = repoInquilino.All();
                 return View();
         }

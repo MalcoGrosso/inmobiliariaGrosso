@@ -21,7 +21,7 @@ namespace InmobiliariaGrosso.Data
 
             string sql = @"UPDATE inmuebles
                             SET Direccion = @direccion , Ambientes = @ambientes , Superficie = @superficie , 
-                            Latitud = @latitud , Longitud = @longitud, IdPropietario = @IdPropietario, Uso = @uso, Tipo = @tipo  
+                            Latitud = @latitud , Longitud = @longitud, IdPropietario = @IdPropietario, Uso = @uso, Tipo = @tipo, Disponible = @disponible  
                             WHERE Id = @id ;";
 
 
@@ -36,7 +36,8 @@ namespace InmobiliariaGrosso.Data
                     comm.Parameters.AddWithValue("@longitud", i.Longitud);
                     comm.Parameters.AddWithValue("@idpropietario",i.IdPropietario);
                     comm.Parameters.AddWithValue("@uso",i.Uso);
-                    comm.Parameters.AddWithValue("@tipo",i.Tipo);
+                    comm.Parameters.AddWithValue("@tipo",i.Tipo); 
+                    comm.Parameters.AddWithValue("@disponible", i.Disponible);
                     comm.Parameters.AddWithValue("@id", i.Id);
                     
 
@@ -73,7 +74,7 @@ namespace InmobiliariaGrosso.Data
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
 				string sql = @"SELECT i.Id, i.Direccion, i.Ambientes, i.Superficie, i.Latitud, i.Longitud,  
-                                i.IdPropietario, i.Uso, i.Tipo, p.Nombre, p.apellido, p.Dni, p.Email 
+                                i.IdPropietario, i.Uso, i.Tipo, i.Disponible, p.Nombre, p.apellido, p.Dni, p.Email 
                                 FROM Inmuebles i INNER JOIN Propietarios p
                                 ON i.IdPropietario = p.Id
                                 WHERE i.Id = @id;";
@@ -96,11 +97,12 @@ namespace InmobiliariaGrosso.Data
                             IdPropietario = reader.GetInt32(6),
                             Uso = reader.GetString(7),
                             Tipo = reader.GetString(8),
+                            Disponible = reader.GetBoolean(9),
                             Duenio = new Propietario
                             {
                                 Id = reader.GetInt32(6),
-                                Nombre = reader.GetString(9),
-                                Apellido = reader.GetString(10),
+                                Nombre = reader.GetString(10),
+                                Apellido = reader.GetString(11),
 							}
 						
 						};
@@ -117,8 +119,8 @@ namespace InmobiliariaGrosso.Data
             int res = -1;
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
-                string sql = @"INSERT INTO inmuebles (Direccion, Ambientes, Superficie, Latitud, Longitud, IdPropietario, Uso, Tipo) 
-                            VALUES(@direccion, @ambientes, @superficie, @latitud, @longitud,  @idpropietario, @uso, @tipo);
+                string sql = @"INSERT INTO inmuebles (Direccion, Ambientes, Superficie, Latitud, Longitud, IdPropietario, Uso, Tipo, Disponible) 
+                            VALUES(@direccion, @ambientes, @superficie, @latitud, @longitud,  @idpropietario, @uso, @tipo, @disponible);
                             SELECT last_insert_id();";
 
                 using (MySqlCommand comm = new MySqlCommand(sql, conn))
@@ -131,6 +133,7 @@ namespace InmobiliariaGrosso.Data
                     comm.Parameters.AddWithValue("@idpropietario", i.IdPropietario);
                     comm.Parameters.AddWithValue("@uso", i.Uso);
                     comm.Parameters.AddWithValue("@tipo", i.Tipo);
+                    comm.Parameters.AddWithValue("@disponible", i.Disponible);
 
                     conn.Open();
 
@@ -150,7 +153,7 @@ namespace InmobiliariaGrosso.Data
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 string sql = @"SELECT i.Id, i.Direccion, i.Ambientes, i.Superficie, i.Latitud, i.Longitud,  
-                                i.IdPropietario, i.Uso, i.Tipo, p.Nombre, p.apellido, p.Dni, p.Email 
+                                i.IdPropietario, i.Uso, i.Tipo, i.Disponible, p.Nombre, p.apellido, p.Dni, p.Email 
                                 FROM Inmuebles i INNER JOIN Propietarios p
                                 ON i.IdPropietario = p.Id;";
 
@@ -172,11 +175,12 @@ namespace InmobiliariaGrosso.Data
                             IdPropietario = reader.GetInt32(6),
                             Uso = reader.GetString(7),
                             Tipo = reader.GetString(8),
+                            Disponible = reader.GetBoolean(9),
                             Duenio = new Propietario
                             {
                                 Id = reader.GetInt32(6),
-                                Nombre = reader.GetString(9),
-                                Apellido = reader.GetString(10),
+                                Nombre = reader.GetString(10),
+                                Apellido = reader.GetString(11),
 							}
 						};
 						list.Add(i);
@@ -194,7 +198,7 @@ namespace InmobiliariaGrosso.Data
 			using (MySqlConnection connection = new MySqlConnection(connectionString))
 			{
 				string sql = @"SELECT i.Id, i.Direccion, i.Ambientes, i.Superficie, i.Latitud, i.Longitud,  
-                                i.IdPropietario, i.Uso, i.Tipo, p.Nombre, p.apellido, p.Dni, p.Email 
+                                i.IdPropietario, i.Uso, i.Tipo, i.Disponible, p.Nombre, p.apellido, p.Dni, p.Email 
                                 FROM Inmuebles i INNER JOIN Propietarios p
                                 ON i.IdPropietario = p.Id
                                 WHERE i.Id = @id;";
@@ -217,11 +221,12 @@ namespace InmobiliariaGrosso.Data
                             IdPropietario = reader.GetInt32(6),
                             Uso = reader.GetString(7),
                             Tipo = reader.GetString(8),
+                            Disponible = reader.GetBoolean(9),
                             Duenio = new Propietario
                             {
                                 Id = reader.GetInt32(6),
-                                Nombre = reader.GetString(9),
-                                Apellido = reader.GetString(10),
+                                Nombre = reader.GetString(10),
+                                Apellido = reader.GetString(11),
 							}
 						
 						};
@@ -231,6 +236,60 @@ namespace InmobiliariaGrosso.Data
 			}
 			return i;
         }
+
+
+        public IList<Inmueble> AllValid()
+        {
+            IList<Inmueble> list = new List<Inmueble>();
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                string sql = @"SELECT i.Id, i.Direccion, i.Ambientes, i.Superficie, i.Latitud, i.Longitud,  
+                                i.IdPropietario, i.Uso, i.Tipo, i.Disponible, p.Nombre, p.Dni, p.Email 
+                               FROM Inmuebles i
+                               INNER JOIN Propietarios p ON i.IdPropietario = p.Id
+                               WHERE i.Disponible = 1
+                               ;";
+
+                using (MySqlCommand comm = new MySqlCommand(sql, conn))
+                {
+                    conn.Open();
+                    var reader = comm.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var i = new Inmueble
+                        {
+                            Id = reader.GetInt32(0),
+							Direccion = reader.GetString(1),
+							Ambientes = reader.GetInt32(2),
+							Superficie = reader.GetInt32(3),
+							Latitud = reader.GetString(4),
+						    Longitud = reader.GetString(5),
+                            IdPropietario = reader.GetInt32(6),
+                            Uso = reader.GetString(7),
+                            Tipo = reader.GetString(8),
+                            Disponible = reader.GetBoolean(9),
+                            
+                        };
+                        
+                        var p = new Propietario
+                        {
+                            Id = reader.GetInt32(6),
+                            Nombre = reader.GetString(10),
+                            Dni = reader.GetString(11),
+                            Email = reader.GetString(12),
+                        };
+
+                        i.Duenio = p;
+
+                        list.Add(i);
+                    }
+                    conn.Close();
+                }
+            }
+            return list;
+        }
+
         
     }
 }

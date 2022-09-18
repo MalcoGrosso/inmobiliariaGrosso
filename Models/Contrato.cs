@@ -29,6 +29,15 @@ namespace InmobiliariaGrosso.Models
         public int MontoM { get; set; }
         [Required(ErrorMessage = "Campo requerido")]
 
+        [Display(Name = "Fecha Actual")]
+        public DateTime FechaHoy { get; set; }
+
+        [Display(Name = "Fecha Actual")]
+        public String FechaHoy1 { get; set; }
+
+        [Display(Name = "Multa si se cancela el Contrato")]
+        public int Deuda { get; set; }
+
 
         //Relaciones
         public Inmueble Inmueble { get; set; }
