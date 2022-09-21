@@ -4,6 +4,19 @@
     ViewData["Title"] = "Edit";
 }
 
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
 <h1>Modificar Propietario</h1>
 
 <h4>Propietario</h4>

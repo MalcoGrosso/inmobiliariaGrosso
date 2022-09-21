@@ -4,6 +4,19 @@
     ViewData["Title"] = "Delete";
 }
 
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
 <h1>Borrar Inquilino</h1>
 
 <h3>¿Desea borrar el siguiente Inquilino?</h3>

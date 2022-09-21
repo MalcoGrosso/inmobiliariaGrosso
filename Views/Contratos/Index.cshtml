@@ -7,7 +7,7 @@
 @if (TempData["msg"] != null)
 {
     <div class="row">
-        <div class="col-sm-5">
+        <div class="col-sm-6">
             <div class="alert alert-info alert-dismissible fade show" role="alert">
                 <span>@TempData["msg"]</span>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
@@ -63,7 +63,7 @@
                     </td>
                     <td>
                         <a class="btn btn-primary" asp-action="Details" asp-controller="Inquilinos" asp-route-id="@item.IdInquilino">@item.Inquilino.Nombre</a>
-                        @*@Html.DisplayFor(modelItem => item.Inquilino.Nombre)*@
+                     
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Desde)

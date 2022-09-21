@@ -54,10 +54,20 @@ public class InquilinosController : Controller
         [ValidateAntiForgeryToken]
         public ActionResult Create(Inquilino i)
         {
-            try
+                try
             {
-                repo.Put(i);
-                return RedirectToAction(nameof(Index));
+            
+                var res = repo.Put(i);
+                        if (res > 0)
+                        {
+                            TempData["msg"] = "Inquilino cargado";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            TempData["msg"] = "No se cargó el Inquilino. Intente nuevamente.";
+                            return RedirectToAction(nameof(Create));
+                        }
             }
             catch
             {
@@ -76,33 +86,26 @@ public class InquilinosController : Controller
         // POST: InquilinosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Inquilino i)
         {
-            Inquilino i = repo.ObtenerPorId(id);
-            i.Id = id;
-            i.Nombre = collection["Nombre"].ToString();
-            i.Dni = collection["Dni"].ToString();
-            i.Apellido = collection["Apellido"].ToString();
-            i.Email = collection["Email"].ToString();
-            i.Telefono = collection["Telefono"].ToString();
-            repo.Edit(i);
-            TempData["Mensaje"] = "Datos guardados correctamente";
-
-            try
+              try
             {
-                int res = repo.Edit(i);
+              
+                var res = repo.Edit(i);
                 if (res > 0)
                 {
-                    return RedirectToAction(nameof(Index));
+                       TempData["msg"] = "Cambios guardados.";
+                        return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    return RedirectToAction(nameof(Index));
+                    TempData["msg"] = "No se guardaron los cambios. Intente nuevamente.";
+                        return RedirectToAction(nameof(Edit), new { id = id });
                 }
             }
             catch
             {
-                return View();
+                return View(i);
             }
         }
 

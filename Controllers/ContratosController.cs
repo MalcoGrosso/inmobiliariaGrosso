@@ -1,5 +1,4 @@
-﻿using InmobiliariaGrosso.Data;
-using InmobiliariaGrosso.Models;
+﻿using InmobiliariaGrosso.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,8 +54,7 @@ namespace InmobiliariaGrosso.Controllers
         // GET: ContratosController/Create
        public ActionResult Create()
         {
-          //      ViewBag.Inmuebles = repoInmueble.All();
-                ViewBag.Inmuebles = repoInmueble.AllValid();
+                ViewBag.Inmuebles = repoInmueble.Validos();
                 ViewBag.Inquilinos = repoInquilino.All();
                 return View();
         }
@@ -95,7 +93,6 @@ namespace InmobiliariaGrosso.Controllers
         {
                 var z = repo.Details(id);
                 DateTime Hoy = DateTime.Today;
-        //        string Date = DateTime.Now.ToString("dd-MM-yyyy");
                 z.Desde.AddDays(3);
                 
                 var c = repo.Details(id);
@@ -118,15 +115,6 @@ namespace InmobiliariaGrosso.Controllers
                     TempData["msg"] = "No se pudo obtener lista de Inquilinos. Intente nuevamente.";
                     return RedirectToAction(nameof(Index));
                 }
-    /*            if ( z.Hasta < Hoy){
-                    ViewBag.Inmuebles = inmuebles;
-                    ViewBag.Inquilinos = inquilinos;
-                    return View(z);
-                }else {
-                     TempData["msg"] = "asdasdasdasdasdas.";
-                    return RedirectToAction(nameof(Index));
-
-                }*/ 
 
                 if ( z.Desde.AddDays(3) > Hoy){
                     ViewBag.Inmuebles = inmuebles;
@@ -137,11 +125,7 @@ namespace InmobiliariaGrosso.Controllers
                     return RedirectToAction(nameof(Index));
 
                 }
-        //        ViewBag.Inmuebles = inmuebles;
-        //        ViewBag.Inquilinos = inquilinos;
-        //       return View(c);
-            
-            
+
         }
 
         // POST: ContratosController/Edit/5
@@ -163,12 +147,12 @@ namespace InmobiliariaGrosso.Controllers
                 }
         }
 
-        // GET: ContratosController/Renovacion/5
+
+             // GET: ContratosController/Renovacion/5
         public ActionResult Renovacion(int id)
         {
                 var z = repo.Details(id);
                 DateTime Hoy = DateTime.Today;
-        //        string Date = DateTime.Now.ToString("dd-MM-yyyy");
                 z.Desde.AddDays(3);
                 
                 var c = repo.Details(id);
@@ -205,7 +189,7 @@ namespace InmobiliariaGrosso.Controllers
         // POST: ContratosController/Renovacion/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Renovacion(int id, Contrato c)
+        public ActionResult Renovacion(Contrato c)
         {
 
                 var res = repo.Renovacion(c);
@@ -217,7 +201,7 @@ namespace InmobiliariaGrosso.Controllers
                 else
                 {
                     TempData["msg"] = "No se guardaron cambios. Intente nuevamente.";
-                    return RedirectToAction(nameof(Renovacion), new { id = id });
+                    return RedirectToAction(nameof(Index));
                 }
         }
 

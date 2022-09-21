@@ -12,11 +12,15 @@ namespace InmobiliariaGrosso.Controllers
     [Authorize]
     public class PropietariosController : Controller
     {
+        
         RepoPropietario repo;
+
+        RepoInmueble repoInmueble;
 
         public PropietariosController()
         {
             repo = new RepoPropietario();
+            repoInmueble = new RepoInmueble();
         }
 
         // GET: PropietariosController
@@ -52,13 +56,24 @@ namespace InmobiliariaGrosso.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Propietario p)
         {
-            try
+             try
             {
-                repo.Put(p);
-                return RedirectToAction(nameof(Index));
+            
+                var res = repo.Put(p);
+                        if (res > 0)
+                        {
+                            TempData["msg"] = "Propietario cargado";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            TempData["msg"] = "No se cargó el Inquilino. Intente nuevamente.";
+                            return RedirectToAction(nameof(Create));
+                        }
             }
             catch
             {
+                
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -73,31 +88,26 @@ namespace InmobiliariaGrosso.Controllers
         // POST: PropietariosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Propietario p)
         {
-            Propietario p = new Propietario();
-            p.Id = id;
-            p.Nombre = collection["Nombre"].ToString();
-            p.Dni = collection["Dni"].ToString();
-            p.Apellido = collection["Apellido"].ToString();
-            p.Email = collection["Email"].ToString();
-            p.Telefono = collection["Telefono"].ToString();
-
-            try
+              try
             {
-                int res = repo.Edit(p);
+              
+                var res = repo.Edit(p);
                 if (res > 0)
                 {
-                    return RedirectToAction(nameof(Index));
+                       TempData["msg"] = "Cambios guardados.";
+                        return RedirectToAction(nameof(Index));
                 }
                 else
                 {
-                    return RedirectToAction(nameof(Index));
+                    TempData["msg"] = "No se guardaron los cambios. Intente nuevamente.";
+                        return RedirectToAction(nameof(Edit), new { id = id });
                 }
             }
             catch
             {
-                return View();
+                return View(p);
             }
         }
 
@@ -111,7 +121,7 @@ namespace InmobiliariaGrosso.Controllers
                 return View(entidad);
             }
             catch (Exception ex)
-            {//poner breakpoints para detectar errores
+            {
                 throw;
             }
         }
@@ -124,6 +134,7 @@ namespace InmobiliariaGrosso.Controllers
         {
             try
             {
+                repo.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -131,5 +142,28 @@ namespace InmobiliariaGrosso.Controllers
                 return View();
             }
         }
+
+        public ActionResult Inmuebles(int id)
+        {
+            try
+            {
+                var p = repo.ObtenerPorId(id);
+                if (p.Id == 0)
+                {
+                    TempData["msg"] = "No se encontró Propietario.";
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewBag.Propietario = p;
+                IList<Inmueble> inmuebles =  repoInmueble.TodosPorInquilino(id);
+                return View(inmuebles);
+            }
+                catch (Exception)
+                {
+                    throw;
+                }
+            
+        }
+
+
     }
 }

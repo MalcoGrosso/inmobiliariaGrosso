@@ -1,5 +1,4 @@
-﻿using InmobiliariaGrosso.Data;
-using InmobiliariaGrosso.Models;
+﻿using InmobiliariaGrosso.Models;
 using InmobiliariaGrosso.ModelsAux;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

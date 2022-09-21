@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using InmobiliariaGrosso.Data;
 using InmobiliariaGrosso.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +17,15 @@ namespace InmobiliariaGrosso.Controllers
     {
         private RepoInmueble repo;
         private RepoPropietario repoPropietario;
+        private RepoContrato repoContrato;
+
+
 
         public InmueblesController()
         {
             repo = new RepoInmueble();
             repoPropietario = new RepoPropietario();
+            repoContrato = new RepoContrato();
         }
 
         // GET: Inmueble
@@ -43,6 +46,7 @@ namespace InmobiliariaGrosso.Controllers
                 var i = repo.Details(id);
                 if (i.Id > 0)
                 {
+                    
                     return View(i);
                 }
                 else
@@ -66,11 +70,21 @@ namespace InmobiliariaGrosso.Controllers
         public ActionResult Create(Inmueble i)
         {
           {
+
             try
             {
-
-                repo.Put(i);
-                return RedirectToAction(nameof(Index));
+            
+                var res = repo.Put(i);
+                        if (res > 0)
+                        {
+                            TempData["msg"] = "Inmueble cargado";
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            TempData["msg"] = "No se cargó el Inmueble. Intente nuevamente.";
+                            return RedirectToAction(nameof(Create));
+                        }
             }
             catch
             {
@@ -95,7 +109,6 @@ namespace InmobiliariaGrosso.Controllers
         public ActionResult Edit(int id, Inmueble i)
         {
             
-
             try
             {
               
@@ -115,10 +128,6 @@ namespace InmobiliariaGrosso.Controllers
             {
                 return View(i);
             }
-                
-                
-
-            
           
         }
 
@@ -154,6 +163,30 @@ namespace InmobiliariaGrosso.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult Contratos(int id)
+        {
+            try
+            {
+                var i = repo.ObtenerPorId(id);
+                if (i.Id == 0)
+                {
+                    TempData["msg"] = "No se encontró el Inmueble.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                IList<Contrato> contratos = repoContrato.TodosPorInmuebles(i.Id); 
+                ViewBag.Inmueble = i;
+                return View(contratos);
+            }
+            
+                catch (Exception)
+                {
+                    throw;
+                }
+            
+
         }
       
     }

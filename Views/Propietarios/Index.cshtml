@@ -4,6 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
 <h1>Propietarios</h1>
 
 <p>
@@ -54,6 +67,8 @@
                  <a class="btn btn-warning" asp-action="Edit" asp-controller="Propietarios" asp-route-id="@item.Id">Editar</a> 
                  <a class="btn btn-warning" asp-action="Details" asp-controller="Propietarios" asp-route-id="@item.Id">Detalles</a>
                  <a class="btn btn-warning" asp-action="Delete" asp-controller="Propietarios" asp-route-id="@item.Id">Borrar</a>
+                 <a class="btn btn-warning" asp-action="Inmuebles" asp-controller="Propietarios" asp-route-id="@item.Id">Inmuebles</a>
+            
             </td>
         </tr>
 }

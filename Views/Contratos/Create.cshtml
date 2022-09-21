@@ -7,6 +7,18 @@
     Inmueble inmueble = (Inmueble)ViewBag.Inmueble;
 }
 
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
 
     <h1>Cargar</h1>
    
@@ -52,12 +64,12 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Desde" class="control-label"></label>
-                    <input asp-for="Desde" type="date" class="form-control" />
+                    <input asp-for="Desde" min="@DateTime.Today.ToString("yyyy-MM-dd")" type="date"  class="form-control" />
                     <span asp-validation-for="Desde" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Hasta" class="control-label"></label>
-                    <input asp-for="Hasta" type="date" class="form-control" />
+                    <input asp-for="Hasta" min="@DateTime.Today.ToString("yyyy-MM-dd")" type="date"  class="form-control" />
                     <span asp-validation-for="Hasta" class="text-danger"></span>
                 </div>
                 <div class="form-group">

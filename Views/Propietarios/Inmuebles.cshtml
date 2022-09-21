@@ -1,0 +1,83 @@
+﻿@model IEnumerable<InmobiliariaGrosso.Models.Inmueble>
+
+@{
+    ViewData["Title"] = "Inmuebles de Inquilino";
+    Propietario p = (Propietario)ViewBag.Propietario;
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Inmuebles de <a asp-action="Details" asp-controller="Propietarios" asp-route-id="@p.Id">@p.Nombre</a></h1>
+
+<hr />
+<table class="table" id="table_id">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>  model.Tipo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Uso)
+            </th>
+            <th >
+                Ambientes
+            </th>
+            <th >
+                Disponible
+            </th>
+            <th ></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tipo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uso)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Ambientes)
+                    </td>
+
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.DisponibleN)
+                    </td>
+                    <td>
+                        <a class="btn btn-warning" asp-action="Edit" asp-controller="Inmuebles" asp-route-id="@item.Id">Editar</a> 
+                        <a class="btn btn-warning" asp-action="Details" asp-controller="Inmuebles" asp-route-id="@item.Id">Detalles</a>
+                        <a class="btn btn-warning" asp-action="Delete" asp-controller="Inmuebles" asp-route-id="@item.Id">Borrar</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_DataTable");}
+}

@@ -3,11 +3,21 @@
 @{
     ViewData["Title"] = "Renovar Contrato";
     IList<Inmueble> Inmuebles = (List<Inmueble>)ViewBag.Inmuebles;
-    IList<Inquilino> Inquilinos = (List<Inquilino>)ViewBag.Inquilinos;
-    Inquilino z = (Inquilino)ViewBag.Contrato;    
+    IList<Inquilino> Inquilinos = (List<Inquilino>)ViewBag.Inquilinos;  
 }
 
-
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
 
 <h1>Renovacion</h1>
 
@@ -17,20 +27,21 @@
     <div class="col-md-4">
         <form asp-action="Renovacion" onsubmit="return confirmar()">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
+
+        
             <div class="form-group">
-                <label asp-for="IdInmueble" class="control-label"></label>
-                <input asp-for="Inmueble.Direccion"  class="form-control" disabled />
+                <label asp-for="IdInmueble"  class="control-label"></label>
+                <input  asp-for="Inmueble.Id" class="form-control" readonly />
                 <span asp-validation-for="IdInmueble" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdInquilino" class="control-label"></label>
-                <input asp-for="Inquilino.Nombre"  class="form-control" disabled />
+                <input asp-for="Inquilino.Id "  class="form-control" readonly  />
                 <span asp-validation-for="IdInquilino" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Desde" class="control-label"></label>
-                <input asp-for="Desde" type="date" class="form-control" />
+                <input asp-for="Desde" min="@DateTime.Today.ToString("yyyy-MM-dd")" type="date"  class="form-control" />
                 <span asp-validation-for="Desde" class="text-danger"></span>
             </div>
             <div class="form-group">
