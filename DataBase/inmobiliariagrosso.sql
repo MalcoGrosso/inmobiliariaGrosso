@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-09-2022 a las 23:09:52
+-- Tiempo de generación: 26-09-2022 a las 23:11:02
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -44,7 +44,7 @@ INSERT INTO `contratos` (`id`, `idInquilino`, `idInmueble`, `desde`, `hasta`, `m
 (1, 8, 13, '2022-08-30', '2023-08-30', 4000),
 (2, 3, 17, '2022-08-23', '2022-09-21', 15000),
 (4, 8, 17, '2022-09-16', '2022-09-23', 2000),
-(11, 3, 17, '2023-08-23', '2022-09-19', 150002),
+(11, 3, 17, '2023-08-25', '2022-09-19', 150002),
 (14, 3, 18, '2022-09-22', '2025-10-22', 55552);
 
 -- --------------------------------------------------------
@@ -229,7 +229,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `contratos`
 --
 ALTER TABLE `contratos`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de la tabla `inmuebles`

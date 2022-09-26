@@ -24,23 +24,37 @@
 <table class="table" id="table_id">
     <thead>
         <tr>
-
             <th>
                 @Html.DisplayNameFor(model => model.Direccion)
             </th>
             <th>
-                @Html.DisplayNameFor(model =>  model.Tipo)
+                @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Uso)
             </th>
-            <th >
-                Ambientes
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Ambientes)
             </th>
-            <th >
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Superficie) 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitud)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitud)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdPropietario)
+            </th>
+            <th>
                 Disponible
             </th>
-            <th ></th>
+            <th></th>
+        </tr>
         </tr>
     </thead>
     <tbody>
@@ -53,18 +67,26 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Direccion)
                     </td>
-                    <td>
+                    <th>
                         @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>
-                    <td>
+                    </th>
+                    <th>
                         @Html.DisplayFor(modelItem => item.Uso)
-                    </td>
-                    <td class="text-center">
+                    </th>
+                    <td>
                         @Html.DisplayFor(modelItem => item.Ambientes)
                     </td>
-
-                    <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.DisponibleN)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Superficie) m2
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitud)º
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitud)º
+                    </td>
+                    <td>
+                        @(item.Duenio.Nombre + " " + item.Duenio.Apellido)
                     </td>
                     <td>
                         <a class="btn btn-warning" asp-action="Edit" asp-controller="Inmuebles" asp-route-id="@item.Id">Editar</a> 

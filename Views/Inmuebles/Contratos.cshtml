@@ -34,6 +34,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Hasta)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MontoM)
+            </th> 
             <th ></th>
         </tr>
     </thead>
@@ -52,6 +55,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Hasta)
+                    </td>
+                     <td>
+                        $ @Html.DisplayFor(modelItem => item.MontoM)
                     </td>
                     <td>
                        

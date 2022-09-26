@@ -19,6 +19,10 @@ namespace InmobiliariaGrosso.Controllers
         private RepoInquilino repoInquilino;
         private RepoContrato repoContrato;
         private RepoPago repoPago;
+
+        private Contrato con;
+
+
   
         public ContratosController()
         {
@@ -55,7 +59,7 @@ namespace InmobiliariaGrosso.Controllers
        public ActionResult Create()
         {
                 ViewBag.Inmuebles = repoInmueble.Validos();
-                ViewBag.Inquilinos = repoInquilino.All();
+                ViewBag.Inquilinos = repoInquilino.All(); 
                 return View();
         }
 
@@ -64,6 +68,7 @@ namespace InmobiliariaGrosso.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Contrato c)
         { 
+            if (ModelState.IsValid){
             try
             {
             
@@ -84,7 +89,12 @@ namespace InmobiliariaGrosso.Controllers
                 
                 return RedirectToAction(nameof(Index));
             }
-        
+
+            }else{
+                TempData["msg"] = "La Fecha Final no puede ser menor que la Fecha Inicial. Vuelva a intentarlo";
+                return RedirectToAction(nameof(Create));
+            }
+
                         
         }
 

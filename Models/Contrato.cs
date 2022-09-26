@@ -4,9 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace InmobiliariaGrosso.Models
 {
-    public class Contrato
+    public class Contrato : IValidatableObject
     {
         [Display(Name  = "Índice")]
         public int Id { get; set; }
@@ -42,6 +43,19 @@ namespace InmobiliariaGrosso.Models
         //Relaciones
         public Inmueble Inmueble { get; set; }
         public Inquilino Inquilino { get; set; }
+
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+           var errors = new List<ValidationResult>();
+
+            if (Desde > Hasta){
+                errors.Add(new ValidationResult("Hola", new String[] { "Hasta"}));
+            }
+
+            return errors;
+               //  yield return new ValidationResult("Fecha inicial no puede ser mayor que Fecha Final.");
+        }
 
     }
 }
