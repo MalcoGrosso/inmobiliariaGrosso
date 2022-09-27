@@ -29,11 +29,20 @@ namespace InmobiliariaGrosso.Controllers
         }
 
         // GET: Inmueble
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
 
-            IList<Inmueble> lista = repo.All();
-            return View(lista);
+            
+            IList<Inmueble> lista;
+                if (id == "Disponibles")
+                {
+                    lista = repo.TodosDisponibles();
+                }
+                else
+                {
+                    lista = repo.All();
+                }
+                return View(lista);
           
           
         }

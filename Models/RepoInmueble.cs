@@ -339,6 +339,55 @@ namespace InmobiliariaGrosso.Models
             return list;
         }
 
+        public IList<Inmueble> TodosDisponibles()
+            {
+                IList<Inmueble> list = new List<Inmueble>();
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    string sql = @"SELECT i.Id, i.Direccion, i.Ambientes, i.Superficie, i.Latitud, i.Longitud,  
+                                    i.IdPropietario, i.Uso, i.Tipo, i.Disponible, p.Nombre, p.Dni, p.Email  
+                                    FROM Inmuebles i INNER JOIN Propietarios p
+                                    ON i.IdPropietario = p.Id WHERE i.Disponible = 1 ;";
+
+                    using (MySqlCommand comm = new MySqlCommand(sql, conn))
+                    {
+                        conn.Open();
+                        var reader = comm.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            var i = new Inmueble
+                            {
+                                Id = reader.GetInt32(0),
+                                Direccion = reader.GetString(1),
+                                Ambientes = reader.GetInt32(2),
+                                Superficie = reader.GetInt32(3),
+                                Latitud = reader.GetString(4),
+                                Longitud = reader.GetString(5),
+                                IdPropietario = reader.GetInt32(6),
+                                Uso = reader.GetString(7),
+                                Tipo = reader.GetString(8),
+                                Disponible = reader.GetBoolean(9),
+                            };
+
+                            var p = new Propietario
+                            {
+                                Id = reader.GetInt32(6),
+                                Nombre = reader.GetString(10),
+                                Dni = reader.GetString(11),
+                                Email = reader.GetString(12),
+                            };
+
+                            i.Duenio = p;
+
+                            list.Add(i);
+                        }
+                        conn.Close();
+                    }
+                }
+                return list;
+            }    
+
         
     }
 }
