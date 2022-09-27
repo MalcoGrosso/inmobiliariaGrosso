@@ -54,7 +54,7 @@ namespace InmobiliariaGrosso.Models
             }
 
             return errors;
-               //  yield return new ValidationResult("Fecha inicial no puede ser mayor que Fecha Final.");
+              
         }
 
     }

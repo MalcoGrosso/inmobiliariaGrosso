@@ -20,9 +20,6 @@ namespace InmobiliariaGrosso.Controllers
         private RepoContrato repoContrato;
         private RepoPago repoPago;
 
-        private Contrato con;
-
-
   
         public ContratosController()
         {
@@ -281,6 +278,56 @@ namespace InmobiliariaGrosso.Controllers
                     throw;
                 }
             
+        }
+
+        public ActionResult PorFecha()
+        {
+            try
+            {
+                return View();
+            }
+            
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            
+        }
+
+        public ActionResult fecha()
+        {
+            try
+            {
+                return View();
+            }
+            
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            
+        }
+
+        [HttpPost]
+        public ActionResult fecha(IFormCollection form)
+        {
+
+            IList<Contrato> contratos;
+
+            try
+            {
+                DateTime desde = DateTime.Parse(form["desde"].ToString());
+                DateTime hasta = DateTime.Parse(form["hasta"].ToString());
+                IList<Contrato> cont = repo.PorFechas(desde, hasta);
+                return View(cont);
+            }
+            
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            
+
         }
 
     }

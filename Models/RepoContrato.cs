@@ -329,6 +329,74 @@ namespace InmobiliariaGrosso.Models
             return lista;
         }
 
+
+        public IList<Contrato> PorFechas(DateTime desde, DateTime hasta)
+        {
+            IList<Contrato> lista = new List<Contrato>();
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                string sql = @"SELECT c.Id, c.IdInquilino, c.IdInmueble, c.Desde, c.Hasta, c.montoM, 
+                                i.IdPropietario, p.Nombre, 
+                                i2.Nombre
+                                FROM Contratos c INNER JOIN Inmuebles i ON c.IdInmueble = i.Id 
+                                INNER JOIN Propietarios p ON i.IdPropietario = p.Id 
+                                INNER JOIN Inquilinos i2 ON c.IdInquilino = i2.Id 
+                                WHERE 
+                                c.Desde BETWEEN @desde AND @hasta
+                                AND c.Hasta BETWEEN @desde AND @hasta";
+
+                using (MySqlCommand comm = new MySqlCommand(sql, conn))
+                {
+                    comm.Parameters.AddWithValue("@desde", desde);
+                    comm.Parameters.AddWithValue("@hasta", hasta);
+
+                    conn.Open();
+                    var reader = comm.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Propietario p = new Propietario
+                        {
+                            Id = reader.GetInt32(6),
+                            Nombre = reader.GetString(7),
+                        };
+
+                        Inmueble i = new Inmueble
+                        {
+                            Id = reader.GetInt32(2),
+                            Duenio = p,
+                        };
+
+                        Inquilino i2 = new Inquilino
+                        {
+                            Id = reader.GetInt32(1),
+                            Nombre = reader.GetString(8)
+                        };
+
+                        Contrato c = new Contrato
+                        {
+                            Id = reader.GetInt32(0),
+                            IdInquilino = reader.GetInt32(1),
+                            IdInmueble = reader.GetInt32(2),
+                            Desde = reader.GetDateTime(3),
+                            Hasta = reader.GetDateTime(4),
+                            MontoM = reader.GetInt32(5),
+                            Inmueble = i,
+                            Inquilino = i2,
+                        };
+
+                        lista.Add(c);
+                    }
+
+                    conn.Close();
+                }
+
+            }
+
+            return lista;
+        }
+
         
     }
 }

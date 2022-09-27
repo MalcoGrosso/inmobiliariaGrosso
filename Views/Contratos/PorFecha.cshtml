@@ -1,0 +1,47 @@
+﻿@model InmobiliariaGrosso.Models.Contrato
+
+@{
+    ViewData["Title"] = "Contratos vigentes por Fecha";
+
+}
+
+@if (TempData["msg"] != null)
+{
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <span>@TempData["msg"]</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Contratos vigentes por Fechas</h1>
+
+<hr />
+
+
+                <form asp-action="fecha">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div  class="form-group">
+                    <label asp-for="Desde" class="control-label"></label>
+                    <input asp-for="Desde"   type="date"  class="form-control" />
+                    <span asp-validation-for="Desde" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Hasta" class="control-label"></label>
+                    <input asp-for="Hasta"  type="date"  class="form-control" />
+                    <span asp-validation-for="Hasta" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Consultar Vigencia por fecha"  class="btn btn-primary"  />
+                </div>
+                
+            </form>
+
+<div>
+    <a class="btn btn-link" asp-action="Index">Lista de Contratos</a>
+</div>
+
