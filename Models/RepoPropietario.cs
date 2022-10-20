@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 
 namespace InmobiliariaGrosso.Models
 {
-    public class RepoPropietario
+    public class RepoPropietario 
     {
         
         string connectionString = "Server=localhost;User=root;Password=;Database=InmobiliariaGrosso;SslMode=none";
@@ -16,6 +16,11 @@ namespace InmobiliariaGrosso.Models
         {
 
         }
+
+  /*      public RepoPropietario(IConfiguration configuration) : base(configuration)
+		{
+
+		}*/
 
         public int Edit(Propietario p)
         {

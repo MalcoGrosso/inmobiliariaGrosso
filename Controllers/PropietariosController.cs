@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Inmobiliaria_.Net_Core.Models;
 
 namespace InmobiliariaGrosso.Controllers
 {
@@ -14,6 +15,18 @@ namespace InmobiliariaGrosso.Controllers
     {
         RepoPropietario repo;
 
+
+        RepoInmueble repoInmueble;
+
+
+ /*       public PropietariosController(IRepositorioPropietario repo, IConfiguration config)
+        {
+            // Sin inyección de dependencias y sin usar el config (quitar el parámetro repo del ctor)
+            this.repo = new RepoPropietario();
+        
+            this.repo = new RepoPropietario(config);
+            
+        }*/
         public PropietariosController()
         {
             repo = new RepoPropietario();
