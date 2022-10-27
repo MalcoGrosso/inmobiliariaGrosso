@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using InmobiliariaGrosso.Models;
+using Microsoft.AspNetCore.Http.Features;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,13 +29,13 @@ namespace Inmobiliaria_.Net_Core.Api
         }
 
         // GET: api/<controller>
-        [HttpGet]
+        [HttpGet] // obttener todos los inmuebles
         public async Task<IActionResult> Get()
         {
             try
             {
-                var usuario = User.Identity.Name;
-                var inmuebles = contexto.Inmuebles.Include(e =>  e.Duenio).Where(e => e.Duenio.Email == usuario);
+                var usuario1 = int.Parse(User.Claims.First(x => x.Type == "id").Value);
+                var inmuebles = contexto.Inmuebles.Where(e => e.IdPropietario == usuario1);
                 return Ok(inmuebles);
             }
             catch (Exception ex)
@@ -48,6 +49,10 @@ namespace Inmobiliaria_.Net_Core.Api
         [HttpPost("Nuevo")] // nuevo inmueble
         public async Task<ActionResult<Inmueble>> Post([FromBody] Inmueble inmueble)
         {
+                var feature = HttpContext.Features.Get<IHttpConnectionFeature>();
+				var LocalPort = feature?.LocalPort.ToString();
+				var ipv4 = HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
+				var ipConexion = "http://" + ipv4 + ":" + LocalPort + "/";
 
             try
             {
@@ -58,12 +63,9 @@ namespace Inmobiliaria_.Net_Core.Api
                if (inmueble.Imagen != null )
                {
                    
-                  //  string stream1 = Convert.ToBase64String(System.Text.Encoding.Default.GetBytes(inmueble.ImagenGuardar));
-                    
-        //            var st = Convert.FromBase64String(inmueble.ImagenGuardar);
                     
                     MemoryStream stream1 = new MemoryStream(Convert.FromBase64String(inmueble.Imagen));
-                    IFormFile ImagenInmo = new FormFile(stream1, 0, stream1.Length, "inmueble", ".jpg");
+                    IFormFile ImagenInmo = new FormFile(stream1, 0, stream1.Length, "inmueble", ".PNG");
                     string wwwPath = environment.WebRootPath;
                     string path = Path.Combine(wwwPath, "Uploads");
                     if (!Directory.Exists(path))
@@ -74,7 +76,7 @@ namespace Inmobiliaria_.Net_Core.Api
                     string fileName = "inmueble_" + inmueble.IdPropietario + r.Next(0,100000)+Path.GetExtension(ImagenInmo.FileName);
                     string pathCompleto = Path.Combine(path, fileName);
                     
-                    inmueble.Imagen = Path.Combine("http://192.168.1.100:5000/" ,"Uploads/", fileName);
+                    inmueble.Imagen = Path.Combine(ipConexion ,"Uploads/", fileName);
                     using (FileStream stream = new FileStream(pathCompleto, FileMode.Create))
                     {
                         ImagenInmo.CopyTo(stream);
@@ -135,10 +137,8 @@ namespace Inmobiliaria_.Net_Core.Api
                 var usuario = User.Identity.Name;
                 var propietario = await contexto.Propietarios.FirstOrDefaultAsync(x => x.Email == usuario);
                 var inmu = contexto.Contratos.Where(x => x.Inmueble.Duenio.Email == usuario).Include(l => l.Inmueble).ToList();
+        
                     return Ok(inmu);
-
-
-
             }
             catch (Exception ex)
             {

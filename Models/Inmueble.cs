@@ -11,26 +11,26 @@ namespace InmobiliariaGrosso.Models
 	{
         
         public int Id { get; set; }
- //       [Required(ErrorMessage = "Campo obligatorio")]
-		public string Direccion { get; set; }
-//        [Required(ErrorMessage = "Campo requerido")]
-		public int Ambientes { get; set; }
- //       [Required(ErrorMessage = "Campo requerido")]
-		public int Superficie { get; set; }
- //       [Required(ErrorMessage = "Campo requerido")]
-		public string Latitud { get; set; }
- //       [Required(ErrorMessage = "Campo requerido")]
-        public string Longitud { get; set; }
- //       [Required(ErrorMessage = "Campo requerido")]
+ //     [Required(ErrorMessage = "Campo obligatorio")]
+		public string? Direccion { get; set; }
+//      [Required(ErrorMessage = "Campo requerido")]
+		public int? Ambientes { get; set; }
+ //     [Required(ErrorMessage = "Campo requerido")]
+		public int? Superficie { get; set; }
+ //     [Required(ErrorMessage = "Campo requerido")]
+		public string? Latitud { get; set; }
+ //     [Required(ErrorMessage = "Campo requerido")]
+        public string? Longitud { get; set; }
+ //     [Required(ErrorMessage = "Campo requerido")]
         public string Uso { get; set; }
-//        [Required(ErrorMessage = "Campo requerido")]
+//      [Required(ErrorMessage = "Campo requerido")]
         public string Tipo { get; set; } 
-//        [Required(ErrorMessage = "Campo requerido")]
+//      [Required(ErrorMessage = "Campo requerido")]
         public bool Disponible { get; set; }
-//        [Required(ErrorMessage = "Campo requerido")]
+//      [Required(ErrorMessage = "Campo requerido")]
         public string DisponibleN => Disponible ? "Sí" : "No";
 
-        public double Precio { get; set; }
+        public double? Precio { get; set; }
                
         [Display(Name = "Propietario")]
         public int IdPropietario { get; set; }

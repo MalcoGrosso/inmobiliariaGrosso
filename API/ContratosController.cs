@@ -27,7 +27,7 @@ namespace Inmobiliaria_.Net_Core.Api
 		}
 
         
-        [HttpGet("{id}")]
+        [HttpGet("{id}")] //Detalles del Contrato
         public async Task<ActionResult<Contrato>> GetContratoXInmueble(int id)
         {
             
@@ -37,9 +37,10 @@ namespace Inmobiliaria_.Net_Core.Api
                 {
                  var usuario = User.Identity.Name;
                  var propietario = await contexto.Propietarios.FirstOrDefaultAsync(x => x.Email == usuario);
-                var contrato = await contexto.Contratos.Include(x=> x.Inquilino).Include(x=>x.Inmueble).Where(x =>
+                 var contrato = await contexto.Contratos.Include(x=> x.Inquilino).Include(x=>x.Inmueble).Where(x =>
                    x.Id == id && propietario.Email == x.Inmueble.Duenio.Email).FirstOrDefaultAsync();
-                    return Ok(contrato);
+                    var contratoView = new ContratoView (contrato);
+			        return Ok(contratoView);
 
                 }
                 else

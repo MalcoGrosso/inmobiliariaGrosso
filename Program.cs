@@ -11,9 +11,11 @@ using Inmobiliaria_.Net_Core.Api;
 using InmobiliariaGrosso.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+var mailApiKey = builder.Configuration["ulp.api.net@gmail.com"];
 //builder.Services.AddAuthorization();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -22,6 +24,9 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 	serverOptions.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps() );
 });
 
+builder.Configuration.AddEnvironmentVariables()
+                //     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
+					 .AddUserSecrets(System.Reflection.Assembly.GetExecutingAssembly());
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -45,7 +50,26 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 						IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(
 							configuration["TokenAuthentication:SecretKey"])),
 					};
-				});    
+
+                   options.Events = new JwtBearerEvents
+					{
+						OnMessageReceived = context =>
+						{
+							// Read the token out of the query string
+							var accessToken = context.Request.Query["access_token"];
+							// If the request is for our hub...
+							var path = context.HttpContext.Request.Path;
+							if (!string.IsNullOrEmpty(accessToken) &&
+								path.StartsWithSegments("/API/Propietarios/mail"))
+							{//reemplazar la url por la usada en la ruta ⬆
+								context.Token = accessToken;
+							}
+							return Task.CompletedTask;
+						}
+					};
+
+
+				});     
                 
                
 builder.Services.AddAuthorization(options =>
@@ -90,7 +114,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-
+app.MapGet("/", () => mailApiKey);
 
 
 // app.UseHttpsRedirection();
