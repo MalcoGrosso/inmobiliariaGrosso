@@ -155,6 +155,8 @@ namespace Inmobiliaria_.Net_Core.Api
 		{
 			try
 			{
+				
+
 				var perfil = new{
 				Email =  User.Identity.Name,
 				Nombre = User.Claims.First(x=> x.Type == "FullName").Value,
@@ -204,7 +206,7 @@ namespace Inmobiliaria_.Net_Core.Api
 				client.Authenticate(config["SMTPUser"], config["SMTPPass"]);
 
 				await client.SendAsync(message);
-				return Ok(perfil);
+				return Ok("Su contraseña se ha restablecido, por favor verifique su email para recibir la nueva contraseña");
 			
 			}
 			catch (Exception ex)

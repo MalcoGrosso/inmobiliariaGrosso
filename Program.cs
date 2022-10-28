@@ -15,7 +15,6 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-var mailApiKey = builder.Configuration["ulp.api.net@gmail.com"];
 //builder.Services.AddAuthorization();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -114,7 +113,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-app.MapGet("/", () => mailApiKey);
 
 
 // app.UseHttpsRedirection();
