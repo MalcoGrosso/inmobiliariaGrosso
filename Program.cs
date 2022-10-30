@@ -15,7 +15,6 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-//builder.Services.AddAuthorization();
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -24,7 +23,6 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 });
 
 builder.Configuration.AddEnvironmentVariables()
-                //     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
 					 .AddUserSecrets(System.Reflection.Assembly.GetExecutingAssembly());
 
 
@@ -54,13 +52,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 					{
 						OnMessageReceived = context =>
 						{
-							// Read the token out of the query string
+							
 							var accessToken = context.Request.Query["access_token"];
-							// If the request is for our hub...
 							var path = context.HttpContext.Request.Path;
 							if (!string.IsNullOrEmpty(accessToken) &&
 								path.StartsWithSegments("/API/Propietarios/mail"))
-							{//reemplazar la url por la usada en la ruta ⬆
+							{
 								context.Token = accessToken;
 							}
 							return Task.CompletedTask;
@@ -73,7 +70,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                
 builder.Services.AddAuthorization(options =>
             {
-             //   options.AddPolicy("Empleado", policy => policy.RequireClaim(ClaimTypes.Role, "Administrador", "Empleado"));
                 options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador", "SuperAdministrador"));
             });
 
@@ -82,11 +78,6 @@ builder.Services.AddAuthorization(options =>
             
 builder.Services.AddControllersWithViews();
 builder.Services.AddMvc();            
-//builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
-
-//builder.Services.AddTransient<IRepositorio<Propietario>, RepoPropietario>();
-
-
 builder.Services.AddDbContext<DataContext>(
 				options => options.UseMySql(
 					configuration["ConnectionStrings:DefaultConnection"],

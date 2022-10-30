@@ -225,11 +225,10 @@ namespace Inmobiliaria_.Net_Core.Api
 				var ipv4 = HttpContext.Connection.LocalIpAddress.MapToIPv4().ToString();
 				var ipConexion = "http://" + ipv4 + ":" + LocalPort;
 			try
-			{	//método sin autenticar, busca el propietario xemail
+			{	
+
 				var entidad1 = await contexto.Propietarios.FirstOrDefaultAsync(x => x.Email == email);
 				var entidad= new PropietarioView(entidad1);
-				//para hacer: si el propietario existe, mandarle un email con un enlace con el token
-				//ese enlace servirá para resetear la contraseña
 				var key = new SymmetricSecurityKey(
 						System.Text.Encoding.ASCII.GetBytes(config["TokenAuthentication:SecretKey"]));
 					var credenciales = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -280,7 +279,6 @@ namespace Inmobiliaria_.Net_Core.Api
 				client.Connect("smtp.gmail.com", 465, MailKit.Security.SecureSocketOptions.Auto);
 				client.Authenticate(config["SMTPUser"], config["SMTPPass"]);
 				await client.SendAsync(message);
-			//	return Ok(perfil);
 			
 			}
 			catch (Exception ex)

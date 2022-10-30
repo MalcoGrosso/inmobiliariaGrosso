@@ -40,7 +40,7 @@ namespace Inmobiliaria_.Net_Core.Api
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Inmobiliaria_.Net_Core.Api
             }
         }
 
-           [HttpPut("{id}")]//Cambiar Estado
+           [HttpPut("{id}")]//Cambiar Estado de disponible a no disponible Checkbox
         public async Task<ActionResult<Inmueble>> Put([FromBody] bool Disponible, int id)
         {
 
